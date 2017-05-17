@@ -19,6 +19,8 @@
 
     describe('invoke, when provided a function reference', function() {
 
+      checkForNativeMethods(_.invoke.bind(this, [1, 2], _.identity));
+
       it('runs the input function on each item in the array, and returns a list of results', function() {
         var reverse = function() {
           return this.split('').reverse().join('');
@@ -32,6 +34,8 @@
     });
 
     describe('invoke, when provided a method name', function() {
+
+      checkForNativeMethods(_.invoke.bind(this, ['dog', 'cat'], 'toUpperCase'));
 
       it('runs the specified method on each item in the array, and returns a list of results', function() {
         var upperCasedStrings = _.invoke(['dog', 'cat'], 'toUpperCase');
