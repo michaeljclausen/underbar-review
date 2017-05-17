@@ -19,6 +19,8 @@
 
     describe('contains', function() {
 
+      checkForNativeMethods(_.contains.bind(this, [1], 1));
+
       it('should not mutate the input array', function() {
         var input = [1, 2, 3, 4, 5];
         var result = _.contains(input, 4);
@@ -77,6 +79,9 @@
     });
 
     describe('every', function() {
+
+      checkForNativeMethods(_.every.bind(this, [], _.identity));
+
       var isEven = function(num) {
         return num % 2 === 0;
       };
@@ -122,6 +127,9 @@
     });
 
     describe('some', function() {
+
+      checkForNativeMethods(_.some.bind(this, [], _.identity));
+
       var isEven = function(number) {
         return number % 2 === 0;
       };
@@ -171,6 +179,8 @@
 
     describe('extend', function() {
 
+      checkForNativeMethods(_.extend.bind(this, {}, {}));
+
       it('returns the first argument', function() {
         var destination = {};
         var source = {};
@@ -219,6 +229,8 @@
     });
 
     describe('defaults', function() {
+
+      checkForNativeMethods(_.defaults.bind(this, {}, {}));
 
       it('should return the original target object', function() {
         /*
@@ -349,6 +361,8 @@
 
     describe('once', function() {
 
+      checkForNativeMethods(_.once.bind(this, function() {}));
+
       it('should return a function', function() {
         // noop is short for `no-operation` and is pronounced `no-op`
         var noop = _.once(function() {});
@@ -389,6 +403,9 @@
     });
 
     describe('memoize', function() {
+
+      checkForNativeMethods(_.memoize.bind(this, function() {}));
+
       var add, memoAdd;
 
       beforeEach(function() {
@@ -449,6 +466,9 @@
     });
 
     describe('delay', function() {
+
+      checkForNativeMethods(_.delay.bind(this, function() {}, 1));
+
       var callback;
 
       beforeEach(function() {
@@ -476,6 +496,8 @@
     });
 
     describe('shuffle', function() {
+
+      checkForNativeMethods(_.shuffle.bind(this, [1, 2]));
 
       it('should not modify the original object', function() {
         var numbers = [4, 5, 6];
