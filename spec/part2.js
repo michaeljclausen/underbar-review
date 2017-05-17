@@ -81,7 +81,6 @@
         return num % 2 === 0;
       };
 
-
       it('passes by default for an empty collection', function() {
         expect(_.every([], _.identity)).to.be.true;
       });
@@ -93,7 +92,7 @@
       it('fails for a collection of all-falsy values', function() {
         // Replace this line with an `expect` statement that tests
         // the behavior described by the `it` string
-        throw new Error('This test is missing.');
+        expect(_.every([false, 0, null, undefined], _.identity)).to.be.false;
       });
 
       it('fails for a collection containing mixed falsy and truthy values', function() {
@@ -151,7 +150,7 @@
       it('should fail for a set containing no matching values', function() {
         // Replace this line with an `expect` statement that tests
         // the behavior described by the `it` string
-        throw new Error('This test is missing.');
+        expect(_.some([null, 0, undefined, false], _.identity)).to.be.false;
       });
 
       it('should pass for a collection containing one matching value', function() {
@@ -191,7 +190,11 @@
       it('should override properties found on the destination', function() {
         // Replace this line with an `expect` statement that tests
         // the behavior described by the `it` string
-        throw new Error('This test is missing.');
+        var destination = {a: 'c'};
+        var source = { a: 'b' };
+        var extended = _.extend(destination, source);
+
+        expect(extended.a).to.equal('b');
       });
 
       it('should not override properties not found in the source', function() {
@@ -269,7 +272,12 @@
       it('should copy any property whose key is not already set on the target', function() {
         // Replace this line with an `expect` statement that tests
         // the behavior described by the `it` string
-        throw new Error('This test is missing.');
+        var destination = {};
+        var source = { a: 1 };
+
+        _.defaults(destination, source);
+
+        expect(destination.a).to.equal(1);
       });
 
       it('should not copy a property if that key is already set on the target', function() {
@@ -398,6 +406,7 @@
       });
 
       it('should give different results for different arguments', function() {
+       
         expect(memoAdd(1, 2)).to.equal(3);
         expect(memoAdd(3, 4)).to.equal(7);
         expect(memoAdd(1, 3)).to.equal(4);

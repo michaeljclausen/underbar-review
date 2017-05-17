@@ -193,14 +193,22 @@
 
 
   // Determine whether all of the elements match a truth test.
-  _.every = function(collection, iterator) {
+  _.every = function(collection, iterator = _.identity) {
     // TIP: Try re-using reduce() here.
+    let allTrue = true;
+    let res = _.reduce(collection, (allTrue, item) => {
+      return allTrue && iterator(item);
+    }, true);
+    return res ? true : false;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
-  _.some = function(collection, iterator) {
+  _.some = function(collection, iterator = _.identity) {
     // TIP: There's a very clever way to re-use every() here.
+    return !(_.every(collection, item => {
+      return false || !iterator(item);
+    }));
   };
 
 
@@ -223,11 +231,26 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    for (let index = 1; index < arguments.length; index++) {
+      for (let key in arguments[index]) {
+        obj[key] = arguments[index][key];
+      }
+    }
+    return obj;
+    
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for (let index = 1; index < arguments.length; index++) {
+      for (let key in arguments[index]) {
+        if (!obj.hasOwnProperty(key)) {
+          obj[key] = arguments[index][key];
+        }
+      }
+    }
+    return obj;
   };
 
 
@@ -271,6 +294,26 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var alreadyCalled = {};
+    let key;
+    // for (let item in arguments) {
+    //   key += item.toString();
+    // }   
+    // TIP: We'll return a new function that delegates to the old one, but only
+    // if it hasn't been called before.
+    return function() {
+      key = JSON.stringify(arguments);
+      if (!alreadyCalled.hasOwnProperty(key)) {
+        // TIP: .apply(this, arguments) is the standard way to pass on all of the
+        // infromation from one function call to another.
+        
+        var result = func.apply(this, arguments);
+        alreadyCalled[key] = result;
+        return result;
+      }
+      // The new function always returns the originally computed result.
+      return alreadyCalled[key];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
